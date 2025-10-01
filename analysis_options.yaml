@@ -1,0 +1,10 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    - always_use_package_imports
+    - avoid_print
+    - prefer_final_locals
+    - prefer_const_constructors
+    - avoid_empty_else
+    - avoid_unnecessary_containers
