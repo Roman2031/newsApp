@@ -34,24 +34,69 @@ class _NewsScreenState extends State<NewsScreen> {
                   itemCount: state.articles.length,
                   itemBuilder: (_, index) {
                     final article = state.articles[index];
-                    return ListTile(
+                    return GestureDetector(
                       onTap: () {
                         context.read<NewsBloc>().add(
                           OpenNewsInBrowserEvent(article.url),
                         );
                       },
-                      leading: article.urlToImage != null
-                          ? Image.network(
-                              article.urlToImage!,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : const Icon(Icons.image, size: 100),
-                      title: Text(article.title),
-                      subtitle: Text(
-                        DateFormat(
-                          'dd-MMM-yyyy',
-                        ).format(DateTime.parse(article.publishedAt)),
+                      child: Card(
+                        margin: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (article.urlToImage != null)
+                              Image.network(article.urlToImage!)
+                            else
+                              const SizedBox(
+                                height: 200,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.image,
+                                    size: 100,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                article.title,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                  ),
+                                  child: Text(
+                                    DateFormat('dd-MMM-yyyy').format(
+                                      DateTime.parse(article.publishedAt),
+                                    ),
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                  ),
+                                  child: Icon(
+                                    Icons.bookmark_border,
+                                    size: 25,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 28.0),
+                          ],
+                        ),
                       ),
                     );
                   },
